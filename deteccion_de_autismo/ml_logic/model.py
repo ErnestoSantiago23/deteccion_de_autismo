@@ -1,4 +1,7 @@
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier(random_state=42)
 
 def train_model(model, X, y):
 
