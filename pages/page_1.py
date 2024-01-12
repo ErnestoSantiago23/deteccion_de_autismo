@@ -1,17 +1,13 @@
 import streamlit as st
-import pandas as pd
+
 import numpy as np
+import matplotlib.pyplot as plt
 from deteccion_de_autismo.interface.main_local import load_model
 from deteccion_de_autismo.interface.main_local import predict
 
-st.set_page_config(
-    page_title="Demo",
-    page_icon="https://as1.ftcdn.net/v2/jpg/06/73/98/70/1000_F_673987016_XJuf04WTeSXl8zWRQgEsDEIs5lScsG5D.jpg",
-)
-
 model = load_model()
 
-st.title("Detector de Autismo")
+st.title("Autism Detector")
 
 preguntas = ["Question 1: Choose the child's age range in months",
              "Question 2: Choose the child's sex",
@@ -53,41 +49,80 @@ respuestas_usuario = []
 # Iterar a través de las preguntas y obtener las respuestas del usuario
 for i, pregunta in enumerate(preguntas):
     if "Question 1:" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_1)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_1)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
     elif "Question 2" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_2)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_2)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
     elif "Question 3" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_3)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_3)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
     elif "Question 4" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_4)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_4)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
     elif "Question 5" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_5_and_11)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_5_and_11)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
     elif "Question 6" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_6)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_6)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
     elif "Question 11" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_5_and_11)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_5_and_11)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
     elif "Question 12" in pregunta:
-        respuesta = st.selectbox(pregunta, answer_12)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_12)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
+    elif "Question 14" in pregunta:
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_7_questions)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
+        if mapeo_respuestas.get(respuesta, respuesta) == 0:
+            respuestas_usuario.append(1)
+        else:
+            respuestas_usuario.append(0)
     else:
-        respuesta = st.selectbox(pregunta, answer_7_questions)
+        st.write(f"**{pregunta}**")
+        respuesta = st.selectbox(f"Select an option for question {i+1}", answer_7_questions)
+        st.write(f"*Selected Option for Question {i+1}:* {respuesta}")
         respuestas_usuario.append(mapeo_respuestas.get(respuesta, respuesta))
 
 
 # Botón de predicción
-if st.button("Predecir"):
+if st.button("Predict"):
     # Realizar la predicción usando tu modelo
     prediction =predict(model, np.array(respuestas_usuario).reshape(1,-1))
+    proba = model.predict_proba(np.array(respuestas_usuario).reshape(1,-1))
 
     # Mostrar el resultado
     if prediction == 1:
-        st.write("Tiene")
+        st.write("There is a {:.2%} chance that the child has autism".format(proba[0, 1]))
     else:
-        st.write("No tiene")
+        st.write("There is a {:.2%} chance that the child does not have autism".format(proba[0, 0]))
+
+    st.write("**Please do not take these results as infallible. Go to the doctor, if you have not already done so, and verify these results with a professional. In the graph below you can see the possibilities for each case.**")
+
+    classes = model.classes_
+    fig, ax = plt.subplots()
+    ax.bar([0, 1], proba.flatten()*100, tick_label=['No', 'Yes'], color=['lightcoral', 'lightgreen'], edgecolor='black')
+    ax.set_xlabel('Classes')
+    ax.set_ylabel('Probabilities')
+    ax.set_title('Probabilities for Each Class')
+    ax.set_facecolor('#757575')
+    fig.set_facecolor('#757575')
+    st.pyplot(fig)
