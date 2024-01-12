@@ -123,6 +123,6 @@ if st.button("Predict"):
     ax.set_xlabel('Classes')
     ax.set_ylabel('Probabilities')
     ax.set_title('Probabilities for Each Class')
-    ax.set_facecolor('#757575')
+    ax.set_facecolor('#04B2D9')
     fig.set_facecolor('#757575')
     st.pyplot(fig)
