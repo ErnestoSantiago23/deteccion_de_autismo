@@ -4,6 +4,11 @@ import numpy as np
 from deteccion_de_autismo.interface.main_local import load_model
 from deteccion_de_autismo.interface.main_local import predict
 
+st.set_page_config(
+    page_title="Demo",
+    page_icon="https://as1.ftcdn.net/v2/jpg/06/73/98/70/1000_F_673987016_XJuf04WTeSXl8zWRQgEsDEIs5lScsG5D.jpg",
+)
+
 model = load_model()
 
 st.title("Detector de Autismo")
