@@ -14,7 +14,7 @@ local_css("style.css")
 
 model = load_model()
 
-st.title("Autism Detector")
+st.title("SpectrumInsight")
 
 preguntas = ["Question 1: Choose the child's age range in months",
              "Question 2: Choose the child's sex",
