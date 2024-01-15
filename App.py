@@ -9,6 +9,15 @@ st.set_page_config(
     page_icon="https://as1.ftcdn.net/v2/jpg/06/73/98/70/1000_F_673987016_XJuf04WTeSXl8zWRQgEsDEIs5lScsG5D.jpg",
 )
 
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Aplicar el CSS
+local_css("style.css")
+
+
+
 st.markdown('<style>h1{color: whith;}</style>', unsafe_allow_html=True)
 st.markdown('<h1>Welcome to SpectrumInsight! 👋</h1>', unsafe_allow_html=True)
 
