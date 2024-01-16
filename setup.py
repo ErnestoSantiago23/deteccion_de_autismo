@@ -6,7 +6,7 @@ with open("requirements.txt") as f:
 requirements = [x.strip() for x in content if "git+" not in x]
 
 setup(name='deteccion_de_autismo',
-      version="0.0.1",
+      version="0.0.3",
       description="Deteccion de autismo Model (api_pred)",
       license="MIT",
       author="Grupo 2",

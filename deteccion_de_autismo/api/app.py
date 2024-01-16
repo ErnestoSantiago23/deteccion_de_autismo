@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from deteccion_de_autismo.interface.main_local import load_model
 
 app = FastAPI()
-#app.state.model = load_model()
+app.state.model = load_model()
 
 # Allowing all middleware is optional, but good practice for dev purposes
 app.add_middleware(
@@ -14,6 +14,14 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
+
+@app.get("/predict")
+def predict(data):
+    model = app.state.model
+    prediccion = model.predict(data)
+    proba = model.predict_proba(data)
+    return {'prediccion': prediccion, 'proba': proba}
+
 
 @app.get("/")
 def root():

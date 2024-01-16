@@ -3,8 +3,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import pickle
 from deteccion_de_autismo.ml_logic.preprocessor import preprocess_and_econding
+import os
 
-path = 'data/csv/Toddler Autism dataset July 2018.csv'
+path = '/home/ernestosantiago/code/ErnestoSantiago23/deteccion_de_autismo/data/csv/Toddler Autism dataset July 2018.csv'
 
 data = pd.read_csv(path, header = 0, index_col = 0)
 data = preprocess_and_econding(data)
@@ -22,7 +23,8 @@ def train_model(X_train, y_train):
 
 
 def load_model():
-    my_model = pickle.load(open("model.pkl","rb"))
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    my_model = pickle.load(open(os.path.join(root_dir,'model.pkl'),"rb"))
     return my_model
 
 
