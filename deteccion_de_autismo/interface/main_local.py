@@ -5,9 +5,11 @@ import pickle
 from deteccion_de_autismo.ml_logic.preprocessor import preprocess_and_econding
 import os
 
-path = '/home/ernestosantiago/code/ErnestoSantiago23/deteccion_de_autismo/data/csv/Toddler Autism dataset July 2018.csv'
+ruta = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
-data = pd.read_csv(path, header = 0, index_col = 0)
+csv = os.path.join(ruta, 'data', 'csv', 'Toddler Autism dataset July 2018.csv')
+
+data = pd.read_csv(csv, header = 0, index_col = 0)
 data = preprocess_and_econding(data)
 
 X = data.drop('Class/ASD Traits', axis=1)
