@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from deteccion_de_autismo.interface.main_local import load_model
@@ -34,7 +35,7 @@ class AutismPredictionRequest(BaseModel):
 
 
 
-@app.get("/predict")
+@app.post("/predict")
 def predict(request: AutismPredictionRequest):
     data = np.array([[
         request.Months_encoder,
@@ -56,11 +57,14 @@ def predict(request: AutismPredictionRequest):
     model = app.state.model
     prediccion = model.predict(data)
     proba = model.predict_proba(data)
-    return {'prediccion': prediccion, 'proba': proba}
+    return {
+        'prediccion': int(prediccion[0]),
+        'probability': proba[0].tolist()
+    }
 
 
 @app.get("/")
 def root():
     return {
-    'greeting': 'Hello'
+    'greeting': 'Hello, welcome to Spectruminsight API'
 }
