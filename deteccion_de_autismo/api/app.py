@@ -18,29 +18,29 @@ app.add_middleware(
 )
 
 @app.get("/predict")
-def predict(Months_encoder,
-            Sex,
-            Ethnicity_encoder,
-            Family_mem_with_ASD,
-            A1, A2, A3, A4, A5,
-            A6, A7, A8, A9, A10
+def predict(months_encoder,
+            sex,
+            ethnicity_encoder,
+            family_mem_with_ASD,
+            a1, a2, a3, a4, a5,
+            a6, a7, a8, a9, a10
             ):
 
     data = np.array([[
-        Months_encoder,
-        Sex,
-        Ethnicity_encoder,
-        Family_mem_with_ASD,
-        A1,
-        A2,
-        A3,
-        A4,
-        A5,
-        A6,
-        A7,
-        A8,
-        A9,
-        A10
+        months_encoder,
+        sex,
+        ethnicity_encoder,
+        family_mem_with_ASD,
+        a1,
+        a2,
+        a3,
+        a4,
+        a5,
+        a6,
+        a7,
+        a8,
+        a9,
+        a10
     ]])
 
     model = app.state.model
